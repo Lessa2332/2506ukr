@@ -7,104 +7,109 @@
     <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #111;
-            --accent: #00E676;
-            --bg-gradient: linear-gradient(135deg, #232526, #414345);
-            --card-bg: #ffffff;
+            --primary-dark: #111111;
+            --accent-green: #00E676;
+            --button-shadow: #000000;
+            --bg-gradient: linear-gradient(135deg, #1f2022, #3a3d40);
+            --card-white: #ffffff;
         }
         
         body {
             margin: 0; padding: 0;
             font-family: 'Comic Neue', 'Comic Sans MS', cursive, sans-serif;
             background: var(--bg-gradient);
-            color: #333;
+            color: #333333;
             display: flex; justify-content: center; align-items: center;
             min-height: 100vh;
             -webkit-tap-highlight-color: transparent;
         }
 
         .game-container {
-            width: 100%; max-width: 480px; margin: 10px;
-            background: #f0f0f0; border-radius: 30px;
-            box-shadow: 0 15px 30px rgba(0,0,0,0.4);
-            border: 4px solid var(--primary); overflow: hidden;
+            width: 100%; max-width: 460px; margin: 12px;
+            background: #f7f9fa; border-radius: 32px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            border: 4px solid var(--primary-dark); overflow: hidden;
             box-sizing: border-box; display: flex; flex-direction: column;
         }
 
-        /* Шапка з прогрес-баром */
+        /* Ігрова шапка з інтерактивним треком */
         .game-header {
-            background: var(--primary); padding: 15px; color: white; text-align: center;
+            background: var(--primary-dark); padding: 18px 15px; color: white; text-align: center;
         }
-        .game-title { margin: 0 0 10px 0; font-size: 1.4em; color: #FFF; text-transform: uppercase; letter-spacing: 1px; }
+        .game-title { margin: 0 0 12px 0; font-size: 1.4em; font-weight: 700; color: #FFF; text-transform: uppercase; letter-spacing: 1px; }
         
         /* Бігова доріжка прогресу */
         .progress-track {
-            background: #333; height: 16px; border-radius: 10px; position: relative; margin: 15px 5px 5px 5px; border: 2px solid #555;
+            background: #252525; height: 16px; border-radius: 12px; position: relative; margin: 15px 5px 5px 5px; border: 2px solid #444;
         }
         .progress-runner {
-            position: absolute; top: -18px; left: 0%; transform: translateX(-50%);
-            font-size: 1.6em; transition: left 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: absolute; top: -20px; left: 0%; transform: translateX(-50%);
+            font-size: 1.7em; transition: left 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        /* Сцена гри */
-        .game-stage { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; justify-content: center; }
+        /* Сцена квесту */
+        .game-stage { padding: 22px; flex-grow: 1; display: flex; flex-direction: column; justify-content: center; }
 
-        /* Картка спортсмена */
+        /* Картка спортсмена у дитячому стилі */
         .athlete-card {
-            background: var(--card-bg); border-radius: 24px; padding: 20px;
-            box-shadow: 0 8px 0px #ddd, 0 10px 20px rgba(0,0,0,0.1);
-            border: 3px solid var(--primary); text-align: center;
-            animation: popIn 0.4s ease-out;
+            background: var(--card-white); border-radius: 26px; padding: 20px;
+            box-shadow: 0 8px 0px #e0e0e0, 0 12px 24px rgba(0,0,0,0.15);
+            border: 3px solid var(--primary-dark); text-align: center;
+            animation: popIn 0.45s ease-out;
         }
 
-        .photo-frame {
-            width: 120px; height: 120px; margin: 0 auto 15px auto;
-            background: #e3f2fd; border-radius: 25px;
-            border: 3px dashed #90caf9; display: flex; align-items: center;
-            justify-content: center; font-size: 0.9em; font-weight: bold; color: #1e88e5;
-            box-shadow: inset 0 4px 8px rgba(0,0,0,0.05); position: relative;
+        /* Рамка для реальних фотографій з вашого репо */
+        .photo-container {
+            width: 140px; height: 140px; margin: 0 auto 15px auto;
+            background: #ffffff; border-radius: 28px;
+            border: 4px solid var(--primary-dark); display: flex; align-items: center;
+            justify-content: center; overflow: hidden;
+            box-shadow: 0 6px 0px #ddd; position: relative;
         }
-        .photo-frame::after { content: '📸'; position: absolute; bottom: 5px; right: 5px; font-size: 1.2em; }
+        .photo-container img {
+            width: 100%; height: 100%; object-fit: cover;
+        }
 
-        .athlete-name { font-size: 1.6em; font-weight: bold; margin: 5px 0 15px 0; color: #111; }
-        .question-text { font-size: 1.2em; font-weight: 700; margin-bottom: 20px; color: #37474f; line-height: 1.3; }
+        .athlete-name { font-size: 1.6em; font-weight: 700; margin: 8px 0 16px 0; color: #111; }
+        .question-text { font-size: 1.25em; font-weight: 700; margin-bottom: 22px; color: #37474f; line-height: 1.35; }
 
-        /* Кнопки відповідей */
-        .options-grid { display: flex; flex-direction: column; gap: 12px; width: 100%; }
+        /* Кнопки вибору варіантів відповідей */
+        .options-grid { display: flex; flex-direction: column; gap: 14px; width: 100%; }
         .answer-btn {
-            background: white; border: 3px solid var(--primary); border-radius: 16px;
-            padding: 14px 20px; font-size: 1.1em; font-weight: bold; color: #111;
-            cursor: pointer; text-align: center; box-shadow: 0 5px 0px var(--primary);
+            background: white; border: 3px solid var(--primary-dark); border-radius: 18px;
+            padding: 15px 20px; font-size: 1.15em; font-weight: 700; color: #111;
+            cursor: pointer; text-align: center; box-shadow: 0 6px 0px var(--primary-dark);
             transition: all 0.1s ease; font-family: inherit;
         }
-        .answer-btn:active { transform: translateY(4px); box-shadow: 0 1px 0px var(--primary); }
+        .answer-btn:active { transform: translateY(4px); box-shadow: 0 2px 0px var(--primary-dark); }
 
-        /* Екран успіху картки */
+        /* Вікно екрану успіху */
         .success-box { display: none; text-align: center; animation: celebrate 0.5s ease-out; }
-        .success-box p { font-size: 1.2em; line-height: 1.4; font-weight: bold; color: #1b5e20; }
+        .success-box p { font-size: 1.2em; line-height: 1.45; font-weight: 700; color: #1b5e20; padding: 0 10px; }
         
         .next-btn {
-            background: #00E676; color: black; border: 3px solid #111;
-            padding: 12px 30px; font-size: 1.3em; font-weight: bold; border-radius: 20px;
+            background: var(--accent-green); color: #000; border: 3px solid var(--primary-dark);
+            padding: 14px 35px; font-size: 1.3em; font-weight: 700; border-radius: 22px;
             box-shadow: 0 6px 0 #00a352; cursor: pointer; margin-top: 15px; display: inline-block;
+            font-family: inherit;
         }
         .next-btn:active { transform: translateY(4px); box-shadow: 0 2px 0 #00a352; }
 
-        /* Фінальний екран */
-        #finish-screen { display: none; text-align: center; padding: 30px 20px; }
-        .gold-medal { font-size: 5em; animation: pulse 1.5s infinite; }
+        /* Фінальний екран переможця */
+        #finish-screen { display: none; text-align: center; padding: 35px 20px; }
+        .gold-medal { font-size: 5.5em; animation: pulse 1.5s infinite; margin-bottom: 10px; }
 
-        /* Анімації */
-        @keyframes popIn { 0% { transform: scale(0.8); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
-        @keyframes celebrate { 0% { transform: translateY(20px); opacity: 0; } 100% { transform: translateY(0); opacity: 1; } }
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
+        /* Анімаційні ефекти */
+        @keyframes popIn { 0% { transform: scale(0.85); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+        @keyframes celebrate { 0% { transform: translateY(25px); opacity: 0; } 100% { transform: translateY(0); opacity: 1; } }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.08); } 100% { transform: scale(1); } }
     </style>
 </head>
 <body>
 
     <div class="game-container">
         <div class="game-header">
-            <div class="game-title">🏆 Олімпійські Герої 🇺🇦</div>
+            <div class="game-title">🇺🇦 Олімпійські Чемпіони</div>
             <div class="progress-track">
                 <div class="progress-runner" id="runner">🏃‍♂️</div>
             </div>
@@ -115,26 +120,28 @@
 
         <div class="game-stage" id="finish-screen">
             <div class="gold-medal">🥇</div>
-            <h2 style="font-size: 2em; margin: 10px 0;">Ура! Перемога!</h2>
-            <p style="font-size: 1.3em;">Ви пройшли всю дистанцію та дізналися про 10 найкращих чемпіонів України!</p>
-            <div style="background: #FFF; border: 3px solid #111; padding: 15px; border-radius: 20px; font-size: 1.5em; font-weight: bold; margin-top: 15px;">
-                Секретний код локації: <span style="color:#e65100;">ЧОРНИЙ_П'ЄДЕСТАЛ</span>
+            <h2 style="font-size: 2.1em; margin: 10px 0; color: #111;">Неймовірно! Фініш!</h2>
+            <p style="font-size: 1.3em; color: #444; margin: 5px 0 20px 0;">Ти справжній олімпійський експерт знаєш усіх героїв!</p>
+            <div style="background: #FFF; border: 3px solid #111; padding: 18px; border-radius: 24px; font-size: 1.45em; font-weight: bold; box-shadow: 0 6px 0 #ccc;">
+                Секретний шифр локації:<br>
+                <span style="color:#d84315; font-size: 1.1em; letter-spacing: 1px;">ЧОРНИЙ_П'ЄДЕСТАЛ</span>
             </div>
         </div>
     </div>
 
     <script>
+        // Повний масив олімпійців відповідно до офіційних даних вашої руханки
         const champions = [
-            { name: "Лілія Подкопаєва", id: "foto01", desc: "У 1996 році в Атланті стала абсолютною чемпіонкою зі спортивної гімнастики! 🤸‍♀️", q: "Яке місце зайняла збірна України в команді?", o: ["3 місце", "5 місце", "1 місце"], a: 1 },
-            { name: "Юрій Чебан", id: "foto02", desc: "Дворазовий олімпійський чемпіон (2012, 2016) у веслуванні на каное на 200 метрів! 🚣‍♂️", q: "Який рекордний час він показав у Ріо?", o: ["39,279 сек", "42,291 сек", "45,102 сек"], a: 0 },
-            { name: "Оксана Баюл", id: "foto03", desc: "Принесла першу золоту медаль в новій історії незалежної України на Зимовій Олімпіаді 1994 року! ⛸️", q: "У якому виді спорту змагалася Оксана?", o: ["Швидкісний біг", "Слалом", "Фігурне катання"], a: 2 },
-            { name: "В'ячеслав Олійник", id: "foto04", desc: "Здобув перше золото на літніх Олімпійських іграх в історії незалежної України (Атланта 1996). 🤼‍♂️", q: "Яке місце він посів через 4 роки в Сіднеї?", o: ["1 місце", "14 місце", "5 місце"], a: 1 },
-            { name: "Катерина Серебрянська", id: "foto05", desc: "Абсолютна чемпіонка світу, Європи та Олімпійських ігор з художньої гімнастики! 🎀", q: "Скільки всього титулів чемпіонки світу вона має?", o: ["8 титулів", "3 титули", "12 титулів"], a: 0 },
-            { name: "Рустам Шаріпов", id: "foto06", desc: "Видатний гімнаст, який здобув золоту медаль у вправах на паралельних брусах у 1996 році! 🤸‍♂️", q: "В якому році він здобув своє перше золото в команді?", o: ["1988 рік", "1992 рік", "2000 рік"], a: 1 },
-            { name: "Наталія Скакун", id: "foto07", desc: "Олімпійська чемпіонка з важкої атлетики, що встановила олімпійський рекорд у поштовху! 🏋️‍♀️", q: "Яку сумарну вагу підняла Наталія?", o: ["200Target", "215,5 кг", "242,5 кг"], a: 2 },
-            { name: "Віктор Рубан", id: "foto08", desc: "Неймовірний лучник, який вирвав перемогу у фіналі Пак Гьон Мо з рахунком 113:112! 🏹", q: "З якого виду спорту це золото?", o: ["Стрільба з лука", "Кульова стрільба", "Фехтування"], a: 0 },
-            { name: "Олександр Усик", id: "foto09", desc: "Здобув золото у фінальному поєдинку проти італійця Клементе Руссо на Іграх у Лондоні! 🥊", q: "Кому він програв у другому турі 4 роки тому в Пекіні?", o: ["Клементе Руссо", "Ентоні Джошуа", "Володимиру Кличку"], a: 0 },
-            { name: "Олексій Торохтій", id: "foto10", desc: "Чемпіон Олімпійських ігор 2012 року у ваговій категорії до 105 кг серед важкоатлетів! 🏋️‍♂️", q: "На скільки кілограмів його результат був більшим за 2 місце?", o: ["на 5 кг", "на 1 кг", "на 3 кг"], a: 1 }
+            { name: "Лілія Подкопаєва", id: "foto01.png", desc: "Лілія Подкопаєва у 1996 році на Олімпіаді в Атланті стала чемпіонкою в абсолютній першості й вільних вправах! 🤸‍♀️", q: "Яке місце зайняла збірна України в командному заліку?", o: ["3 місце", "5 місце", "1 місце"], a: 1 },
+            { name: "Юрій Чебан", id: "foto02.png", desc: "Дворазовий чемпіон! У Ріо-де-Жанейро виграв золото у веслуванні на каное на 200 метрів із новим фантастичним рекордом — 39,279 секунди! 🚣‍♂️", q: "Який рекордний час Юрій показав у Ріо?", o: ["39,279 сек", "42,291 сек", "45,102 sec"], a: 0 },
+            { name: "Оксана Баюл", id: "foto03.png", desc: "Принесла першу історичну золоту медаль для незалежної України на XVII Зимових Олімпійських іграх у Ліллегаммері 1994 року! ⛸️", q: "У якому виді спорту блискуче виступила Оксана?", o: ["Швидкісний біг", "Слалом", "Фігурне катання"], a: 2 },
+            { name: "В'ячеслав Олійник", id: "foto04.png", desc: "Здобув історичне перше золото на літніх Олімпійських іграх для нашої країни (Атланта 1996)! 🤼‍♂️", q: "Яке місце В'ячеслав посів через 4 роки на Олімпіаді в Сіднеї?", o: ["1 місце", "14 місце", "5 місце"], a: 1 },
+            { name: "Катерина Серебрянська", id: "foto05.png", desc: "Абсолютна чемпіонка світу, Європи та Олімпійських ігор з художньої гімнастики! Має безліч нагород! 🎀", q: "Скільки всього титулів чемпіонки світу вона завоювала?", o: ["8 титулів", "3 титули", "12 титулів"], a: 0 },
+            { name: "Рустам Шаріпов", id: "foto06.png", desc: "Видатний гімнаст, який здобув олімпійське золото на паралельних брусах у 1996 році! 🤸‍♂️", q: "В якому році він виграв своє найперше золото в команді?", o: ["1988 рік", "1992 рік", "2000 рік"], a: 1 },
+            { name: "Наталія Скакун", id: "foto07.png", desc: "Олімпійська чемпіонка з важкої атлетики, яка встановила олімпійський рекорд у поштовху — 135 кг! 🏋️‍♀️", q: "Яку сумарну вагу підняла Наталія на змаганнях?", o: ["200 кг", "215,5 кг", "242,5 кг"], a: 2 },
+            { name: "Віктор Рубан", id: "foto08.png", desc: "Неймовірний лучник, який у надприродному за напругою фіналі перестріляв корейця Пак Гьон Мо з рахунком 113:112! 🏹", q: "З якого виду спорту Віктор приніс Україні золото?", o: ["Стрільба з лука", "Кульова стрільба", "Фехтування"], a: 0 },
+            { name: "Олександр Усик", id: "foto09.png", desc: "Здобув золото у видовищному фіналі проти італійця Клементе Руссо, взявши реванш за Пекін! 🥊", q: "Кому Олександр програв у другому турі 4 роки тому в Пекіні?", o: ["Клементе Руссо", "Ентоні Джошуа", "Володимиру Кличку"], a: 0 },
+            { name: "Олексій Торохтій", id: "foto10.png", desc: "Став чемпіоном Олімпійських ігор 2012 року у ваговій категорії до 105 кг серед кращих важкоатлетів планети! 🏋️‍♂️", q: "На скільки кілограмів його результат випередив 2-ге місце?", o: ["на 5 кг", "на 1 кг", "на 3 кг"], a: 1 }
         ];
 
         let currentIdx = 0;
@@ -145,19 +152,21 @@
             if (currentIdx >= champions.length) {
                 stage.style.display = 'none';
                 document.getElementById('finish-screen').style.display = 'block';
-                runner.style.left = '100%';
+                runner.style.left = 'calc(100% - 15px)';
                 return;
             }
 
-            // Оновлюємо бігуна на доріжці
+            // Плавне переміщення бігуна по доріжці квесту
             let percent = (currentIdx / champions.length) * 100;
-            runner.style.left = `${percent}%`;
+            runner.style.left = `calc(${percent}% - ${percent === 0 ? 0 : 15}px)`;
 
             let c = champions[currentIdx];
             stage.innerHTML = `
                 <div class="athlete-card" id="card">
                     <div id="quiz-part">
-                        <div class="photo-frame">${c.id}</div>
+                        <div class="photo-container">
+                            <img src="${c.id}" alt="${c.name}">
+                        </div>
                         <div class="athlete-name">${c.name}</div>
                         <div class="question-text">❓ ${c.q}</div>
                         <div class="options-grid">
@@ -165,10 +174,10 @@
                         </div>
                     </div>
                     <div class="success-box" id="success-part">
-                        <div style="font-size: 3.5em; margin-bottom:10px;">🌟</div>
-                        <h3 style="color:#2E7D32; font-size:1.6em; margin:5px 0;">Супер! Правильно!</h3>
+                        <div style="font-size: 3.5em; margin-bottom: 5px;">🌟</div>
+                        <h3 style="color:#2E7D32; font-size:1.6em; margin:5px 0;">Правильно! Молодчинка!</h3>
                         <p>${c.desc}</p>
-                        <button class="next-btn" onclick="nextQuestion()">Вперед далі 🚀</button>
+                        <button class="next-btn" onclick="nextQuestion()">Біжимо далі! 🚀</button>
                     </div>
                 </div>
             `;
@@ -181,8 +190,8 @@
                 document.getElementById('success-part').style.display = 'block';
                 document.getElementById('card').style.borderColor = '#00E676';
             } else {
-                // Візуальний ефект помилки (невелике дрижання кнопок)
-                alert("❌ Ой, спробуй ще раз! Наші чемпіони не здаються!");
+                // Дитяче сповіщення про помилку
+                alert("❌ Ой, спробуй ще раз! Справжні олімпійці ніколи не здаються!");
             }
         }
 
@@ -191,7 +200,7 @@
             renderCard();
         }
 
-        // Запуск першої картки
+        // Запуск квесту з першого спортсмена
         renderCard();
     </script>
 </body>
