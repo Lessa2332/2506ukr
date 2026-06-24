@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Олімпійський Квест: Чорна Локація</title>
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0; padding: 0;
+            font-family: 'Comic Neue', sans-serif;
+            background: linear-gradient(135deg, #E0F2F1, #B2DFDB);
+            color: #263238; text-align: center;
+        }
+        .container { padding: 15px; max-width: 600px; margin: 0 auto; }
+        h1 { color: #004D40; font-size: clamp(1.4em, 4.5vw, 2em); }
+        .champ-card {
+            background: white; border: 3px solid #009688; border-radius: 20px;
+            padding: 15px; margin: 15px 0; text-align: left; box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .champ-header { display: flex; align-items: center; margin-bottom: 10px; }
+        .champ-img { width: 70px; height: 70px; background: #ddd; border-radius: 50%; margin-right: 15px; border: 2px solid #004D40; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: bold; flex-shrink: 0; }
+        .champ-name { font-size: 1.2em; font-weight: bold; color: #00796B; }
+        .quiz-box { background: #E0F2F1; border: 2px dashed #004D40; border-radius: 12px; padding: 10px; margin-top: 10px; }
+        .opt-btn { display: block; width: 100%; margin: 5px 0; padding: 8px; background: white; border: 1px solid #00796B; border-radius: 8px; font-weight: bold; cursor: pointer; }
+        .opt-btn:active { background: #B2DFDB; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🇺🇦 10 Олімпійських Чемпіонів України</h1>
+        <p>Прочитай та дай правильну відповідь, щоб відкрити картку!</p>
+        
+        <div id="champions-container"></div>
+    </div>
+
+    <script>
+        const champions = [
+            { name: "Лілія Подкопаєва", id: "foto01", desc: "У 1996 році в Атланті стала абсолютною чемпіонкою зі спортивної гімнастики! 🤸‍♀️", q: "Яке місце зайняла збірна України в команді?", o: ["3 місце", "5 місце", "1 місце"], a: 1 },
+            { name: "Юрій Чебан", id: "foto02", desc: "Дворазовий олімпійський чемпіон (2012, 2016) у веслуванні на каное на 200 метрів! 🚣‍♂️", q: "Який рекордний час він показав у Ріо?", o: ["39,279 сек", "42,291 сек", "45,102 сек"], a: 0 },
+            { name: "Оксана Баюл", id: "foto03", desc: "Принесла першу золоту медаль в новій історії незалежної України на Зимовій Олімпіаді 1994 року! ⛸️", q: "У якому виді спорту змагалася Оксана?", o: ["Швидкісний біг", "Слалом", "Фігурне катання"], a: 2 },
+            { name: "В'ячеслав Олійник", id: "foto04", desc: "Здобув перше золото на літніх Олімпійських іграх в історії незалежної України (Атланта 1996). 🤼‍♂️", q: "Яке місце він посів через 4 роки в Сіднеї?", o: ["1 місце", "14 місце", "5 місце"], a: 1 },
+            { name: "Катерина Серебрянська", id: "foto05", desc: "Абсолютна чемпіонка світу, Європи та Олімпійських ігор з художньої гімнастики! 🎀", q: "Скільки всього титулів чемпіонки світу вона має?", o: ["8 титулів", "3 титули", "12 титулів"], a: 0 },
+            { name: "Рустам Шаріпов", id: "foto06", desc: "Видатний гімнаст, який здобув золоту медаль у вправах на паралельних брусах у 1996 році! 🤸‍♂️", q: "В якому році він здобув своє перше золото в команді?", o: ["1988 рік", "1992 рік", "2000 рік"], a: 1 },
+            { name: "Наталія Скакун", id: "foto07", desc: "Олімпійська чемпіонка з важкої атлетики, що встановила олімпійський рекорд у поштовху! 🏋️‍♀️", q: "Яку сумарну вагу підняла Наталія?", o: ["200 кг", "215,5 кг", "242,5 кг"], a: 2 },
+            { name: "Віктор Рубан", id: "foto08", desc: "Неймовірний лучник, який вирвав перемогу у фіналі Пак Гьон Мо з рахунком 113:112! 🏹", q: "З якого виду спорту це золото?", o: ["Стрільба з лука", "Кульова стрільба", "Фехтування"], a: 0 },
+            { name: "Олександр Усик", id: "foto09", desc: "Здобув золото у фінальному поєдинку проти італійця Клементе Руссо на Іграх у Лондоні! 🥊", q: "Кому він програв у другому турі 4 роки тому в Пекіні?", o: ["Клементе Руссо", "Ентоні Джошуа", "Володимиру Кличку"], a: 0 },
+            { name: "Олексій Торохтій", id: "foto10", desc: "Чемпіон Олімпійських ігор 2012 року у ваговій категорії до 105 кг серед важкоатлетів! 🏋️‍♂️", q: "На скільки кілограмів його результат був більшим за 2 місце?", o: ["на 5 кг", "на 1 кг", "на 3 кг"], a: 1 }
+        ];
+
+        const container = document.getElementById('champions-container');
+
+        champions.forEach((c, idx) => {
+            let card = document.createElement('div');
+            card.className = 'champ-card';
+            card.id = `card-${idx}`;
+            card.innerHTML = `
+                <div class="champ-header">
+                    <div class="champ-img">${c.id}</div>
+                    <div class="champ-name">${c.name}</div>
+                </div>
+                <div class="quiz-box" id="quiz-${idx}">
+                    <p style="margin:0 0 10px 0; font-weight:bold;">❓ ${c.q}</p>
+                    ${c.o.map((o, oIdx) => `<button class="opt-btn" onclick="checkChampAns(${idx}, ${oIdx})">${o}</button>`).join('')}
+                </div>
+                <p id="desc-${idx}" style="display:none; color:#004D40; margin-top:10px;">✨ ${c.desc}</p>
+            `;
+            container.appendChild(card);
+        });
+
+        function checkChampAns(cIdx, oIdx) {
+            if (oIdx === champions[cIdx].a) {
+                alert("🎯 Блискуче!");
+                document.getElementById(`quiz-${cIdx}`).style.display = 'none';
+                document.getElementById(`desc-${cIdx}`).style.display = 'block';
+                document.getElementById(`card-${cIdx}`).style.borderColor = '#4CAF50';
+            } else {
+                alert("❌ Неправильно, подумай ще!");
+            }
+        }
+    </script>
+</body>
+</html>
